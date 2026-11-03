@@ -22,9 +22,11 @@ O sandbox do Windows bloqueou processos filhos com `spawn EPERM`; testes e build
 
 ## Serviço real e verificações pendentes
 
-A URL e publishable key fornecidas foram armazenadas em `.env.local`, ignorado pelo Git. Uma consulta de leitura ao projeto retornou `PGRST205`: `public.ritms` não encontrada no schema cache. A migration precisa ser executada pelo proprietário no SQL Editor. A chave pública não concede DDL nem administração de usuários.
+A URL e publishable key fornecidas foram armazenadas em `.env.local`, ignorado pelo Git. A primeira consulta retornou `PGRST205`; depois o proprietário informou ter executado a migration. Uma nova consulta encontrou `public.ritms` e recusou leitura anônima com HTTP 401 e código `42501`, confirmando a restrição de privilégios da tabela para `anon`. O endpoint público de configurações Auth respondeu `disable_signup: false` e login anônimo desabilitado. A desativação de novos cadastros e a criação do usuário ainda estão pendentes. A chave pública não concede DDL nem administração de usuários.
 
-Não foram verificados contra o serviço real: execução da migration, login com usuário válido, persistência CRUD, regras RLS entre dois usuários, upload/remoção de imagens e geração de URLs assinadas. O roteiro completo está no README. Não há navegador conectado ao ambiente; não foi possível inspecionar screenshots ou testar visualmente a responsividade.
+Não foram verificados contra o serviço real: todos os objetos da migration, login com usuário válido, persistência CRUD, regras RLS entre dois usuários, upload/remoção de imagens e geração de URLs assinadas. O roteiro completo está no README. Não há navegador conectado ao ambiente; não foi possível inspecionar screenshots ou testar visualmente a responsividade.
+
+O commit de implementação `18ce8b3` foi enviado a `origin/main` em `joseperezpc0708-ui/TaskView`.
 
 Nenhum projeto Vercel foi configurado ou publicado nesta sessão. Configure o serviço e as variáveis e execute os testes integrados antes de considerar a implantação pronta para produção.
 
